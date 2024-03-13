@@ -26,10 +26,10 @@ spec:
   dependsOn:
     - name: onepassword-connect
       namespace: external-secrets
-    - name: nginx-external
-      namespace: networking
-    - name: authelia
-      namespace: security
+#   - name: nginx-external
+#     namespace: networking
+#   - name: authelia
+#     namespace: security
     - name: rook-ceph-cluster
       namespace: rook-ceph
   values:
@@ -95,7 +95,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: "external"
+        className: "internal"
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           nginx.ingress.kubernetes.io/auth-method: GET
