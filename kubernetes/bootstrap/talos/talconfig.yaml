@@ -6,13 +6,13 @@ talosVersion: v1.6.5
 kubernetesVersion: v1.29.2
 
 clusterName: &cluster home-kubernetes
-endpoint: https://10.0.112.10:6443
+endpoint: https://10.0.111.10:6443
 clusterPodNets:
   - "10.69.0.0/16"
 clusterSvcNets:
   - "10.96.0.0/16"
 additionalApiServerCertSans: &sans
-  - "10.0.112.10"
+  - "10.0.111.10"
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
 cniConfig:
@@ -20,7 +20,7 @@ cniConfig:
 
 nodes:
   - hostname: "k8s-master1"
-    ipAddress: "10.0.112.11"
+    ipAddress: "10.0.111.11"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/
     controlPlane: true
@@ -28,15 +28,15 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "10.0.112.11/24"
+          - "10.0.111.11/24"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "10.0.112.1"
+            gateway: "10.0.111.1"
         vip:
-          ip: "10.0.112.10"
+          ip: "10.0.111.10"
   - hostname: "k8s-master2"
-    ipAddress: "10.0.112.12"
+    ipAddress: "10.0.111.12"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/
     controlPlane: true
@@ -44,15 +44,15 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "10.0.112.12/24"
+          - "10.0.111.12/24"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "10.0.112.1"
+            gateway: "10.0.111.1"
         vip:
-          ip: "10.0.112.10"
+          ip: "10.0.111.10"
   - hostname: "k8s-master3"
-    ipAddress: "10.0.112.13"
+    ipAddress: "10.0.111.13"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/
     controlPlane: true
@@ -60,15 +60,15 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "10.0.112.13/24"
+          - "10.0.111.13/24"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "10.0.112.1"
+            gateway: "10.0.111.1"
         vip:
-          ip: "10.0.112.10"
+          ip: "10.0.111.10"
   - hostname: "k8s-worker1"
-    ipAddress: "10.0.112.14"
+    ipAddress: "10.0.111.14"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/
     controlPlane: false
@@ -76,13 +76,13 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "10.0.112.14/24"
+          - "10.0.111.14/24"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "10.0.112.1"
+            gateway: "10.0.111.1"
   - hostname: "k8s-worker2"
-    ipAddress: "10.0.112.15"
+    ipAddress: "10.0.111.15"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/
     controlPlane: false
@@ -90,13 +90,13 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "10.0.112.15/24"
+          - "10.0.111.15/24"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "10.0.112.1"
+            gateway: "10.0.111.1"
   - hostname: "k8s-worker3"
-    ipAddress: "10.0.112.16"
+    ipAddress: "10.0.111.16"
     installDisk: "/dev/sda"
     talosImageURL: factory.talos.dev/installer/
     controlPlane: false
@@ -104,11 +104,11 @@ nodes:
       - interface: eth0
         dhcp: false
         addresses:
-          - "10.0.112.16/24"
+          - "10.0.111.16/24"
         mtu: 1500
         routes:
           - network: 0.0.0.0/0
-            gateway: "10.0.112.1"
+            gateway: "10.0.111.1"
 
 patches:
   # Configure containerd
@@ -152,7 +152,7 @@ patches:
           rotate-server-certificates: true
         nodeIP:
           validSubnets:
-            - "10.0.112.0/24"
+            - "10.0.111.0/24"
 
   # Force nameserver
   - |-
@@ -221,7 +221,7 @@ controlPlane:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
           advertisedSubnets:
-            - "10.0.112.0/24"
+            - "10.0.111.0/24"
 
     # Disable default API server admission plugins.
     - |-
