@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kubelet-csr-approver
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kubelet-csr-approver
+      version: 1.0.7
+      sourceRef:
+        kind: HelmRepository
+        name: postfinance
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    providerRegex: ^(k8s-master1|k8s-master2|k8s-master3|k8s-worker1|k8s-worker2|k8s-worker3)$
+    bypassDnsResolution: true
+    metrics:
+      enable: true
+      serviceMonitor:
+        enabled: true
