@@ -7,8 +7,9 @@ resources:
   - ./cilium.yaml
   - ./external-dns.yaml
   - ./ingress-nginx.yaml
-  - ./k8s-gateway.yaml
   - ./jetstack.yaml
+  - ./k8s-gateway.yaml
+  - ./kyverno.yaml
   - ./metrics-server.yaml
   - ./openebs.yaml
   - ./piraeus.yaml
