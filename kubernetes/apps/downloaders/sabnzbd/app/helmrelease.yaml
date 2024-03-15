@@ -26,8 +26,8 @@ spec:
       namespace: external-secrets
     - name: ingress-nginx-external
       namespace: network
-#   - name: authelia
-#     namespace: security
+    - name: authelia
+      namespace: security
     - name: rook-ceph-cluster
       namespace: rook-ceph
   values:
@@ -97,7 +97,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: "internal"
+        className: "external"
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           nginx.ingress.kubernetes.io/auth-method: GET
