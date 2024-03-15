@@ -28,8 +28,8 @@ spec:
       namespace: external-secrets
     - name: ingress-nginx-external
       namespace: network
-#   - name: authelia
-#     namespace: security
+    - name: authelia
+      namespace: security
     - name: rook-ceph-cluster
       namespace: rook-ceph
   values:
@@ -44,8 +44,8 @@ spec:
             setGateway: "true"
           securityContect:
             runAsUser: 568
-            runAsGroup: 100   # was 568 before app template upgrade
-            fsGroup: 100
+            runAsGroup: 568 # was 568 before app template upgrade
+            fsGroup: 568
             fsGroupChangePolicy: "OnRootMismatch"
         containers:
           main:
@@ -95,7 +95,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: "internal"
+        className: "external"
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
           nginx.ingress.kubernetes.io/auth-method: GET
