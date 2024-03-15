@@ -25,8 +25,8 @@ spec:
   dependsOn:
     - name: onepassword-connect
       namespace: external-secrets
-    - name: nginx-external
-      namespace: networking
+    - name: ingres-nginx-external
+      namespace: network
     - name: authelia
       namespace: security
     - name: rook-ceph-cluster
