@@ -47,6 +47,8 @@ spec:
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
                 sabnzbd,
                 sabnzbd.media,
+                sabnzbd.downloaders
+                sabnzbd.downloaders.svc,
                 sabnzbd.default.svc,
                 sabnzbd.default.svc.cluster,
                 sabnzbd.default.svc.cluster.local,
