@@ -9,9 +9,9 @@ resources:
 ## - ./calibre-web/ks.yaml
 ## - ./calibre/ks.yaml
 ## - ./immich/ks.yaml
-# - ./jellyfin/ks.yaml
-#- ./komga/ks.yaml
-# - ./ombi/ks.yaml
+  - ./jellyfin/ks.yaml
+  - ./komga/ks.yaml
+  - ./ombi/ks.yaml
 # - ./overseerr/ks.yaml
 # - ./stash/ks.yaml
 # - ./tautulli/ks.yaml
