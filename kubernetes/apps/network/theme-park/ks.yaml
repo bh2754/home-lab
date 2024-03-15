@@ -7,7 +7,7 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
-  path: ./kubernetes/apps/networking/theme-park/app
+  path: ./kubernetes/apps/network/theme-park/app
   prune: true
   sourceRef:
     kind: GitRepository
