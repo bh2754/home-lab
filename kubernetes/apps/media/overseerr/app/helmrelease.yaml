@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.0.4
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,7 +27,7 @@ spec:
   dependsOn:
     - name: onepassword-connect
       namespace: external-secrets
-    - name: nginx-external
+    - name: ingress-nginx-external
       namespace: networking
     - name: authelia
       namespace: security
