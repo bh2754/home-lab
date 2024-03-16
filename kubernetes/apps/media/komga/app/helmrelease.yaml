@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -42,7 +42,7 @@ spec:
           main:
             image:
               repository: docker.io/gotson/komga
-              tag: 1.10.3
+              tag: 1.10.4
             env:
               TZ: America/Chicago
               KOMGA_CONFIGDIR: /config
