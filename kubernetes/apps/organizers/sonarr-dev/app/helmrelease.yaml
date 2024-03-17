@@ -49,7 +49,7 @@ spec:
           main:
             image:
               repository: ghcr.io/bh2754/sonarr-develop
-              tag: 4.0.2.1312@sha256:0e02c70cb9dbf38f24c45edba590d2545d2cf32cc8e6e5c4b44644ba0bbe8eb7
+              tag: 4.0.2.1341@sha256:fc295ba800c6e9aec9db9ec4c0dd1603481b48f1aed1c57cb0c8f572a7f2943b
             env:
               SONARR__INSTANCE_NAME: Sonarr
               SONARR__PORT: &port 8989
