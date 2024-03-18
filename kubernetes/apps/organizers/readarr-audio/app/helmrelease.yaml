@@ -49,7 +49,7 @@ spec:
           main:
             image:
               repository: ghcr.io/bh2754/readarr-nightly
-              tag: 0.3.21.2457@sha256:0649f4cbb54f44f0fa2b3d666d3602f2501c068f6c17dd8d5e7aef0c06237cb6
+              tag: 0.3.21.2469@sha256:6a51633fddebfe2c6495240f005392ad9e00ce360424d5b9f9193280e6512575
             env:
               READARR__INSTANCE_NAME: Readarr-Audio
               READARR__PORT: &port 80
