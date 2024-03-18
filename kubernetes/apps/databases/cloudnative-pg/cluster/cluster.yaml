@@ -36,11 +36,11 @@ spec:
     barmanObjectStore: &barmanObjectStore
       data:
         compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 2
+#     wal:
+ #      compression: bzip2
+  #     maxParallel: 2
       destinationPath: s3://cloudnative-pg/
-      endpointURL: http://minio.bharris.co:9090
+      endpointURL: http://minio.bharris.co:9000
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
       serverName: &currentCluster postgres1
