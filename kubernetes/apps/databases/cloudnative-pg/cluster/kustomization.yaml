@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: databases
 resources:
 # - ./secret.sops.yaml
-  - ./externalsecret.yaml
+# - ./externalsecret.yaml
   - ./cluster.yaml
   - ./scheduledbackup.yaml
   - ./service.yaml
