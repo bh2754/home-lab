@@ -42,11 +42,11 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cloudnative-pg/
+      destinationPath: s3://postgresql/
       endpointURL: https://minio.bharris.vip
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres1
+      serverName: &currentCluster postgres
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
