@@ -1,0 +1,25 @@
+---
+kubernetes:
+  children:
+    controllers:
+      hosts:
+        "k8s-master1":
+          ansible_user: "brent"
+          ansible_host: "10.0.112.11"
+        "k8s-master2":
+          ansible_user: "brent"
+          ansible_host: "10.0.112.12"
+        "k8s-master3":
+          ansible_user: "brent"
+          ansible_host: "10.0.112.13"
+    workers:
+      hosts:
+        "k8s-worker1":
+          ansible_user: "brent"
+          ansible_host: "10.0.112.14"
+        "k8s-worker2":
+          ansible_user: "brent"
+          ansible_host: "10.0.112.15"
+        "k8s-worker3":
+          ansible_user: "brent"
+          ansible_host: "10.0.112.16"
