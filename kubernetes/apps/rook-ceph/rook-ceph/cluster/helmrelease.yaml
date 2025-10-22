@@ -11,9 +11,9 @@ spec:
     kind: OCIRepository
     name: rook-ceph-cluster
   values:
-    monitoring:
-      enabled: true
-      createPrometheusRules: true
+#   monitoring:
+#     enabled: true
+#     createPrometheusRules: true
     toolbox:
       enabled: true
     route:
