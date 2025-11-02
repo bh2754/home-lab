@@ -94,5 +94,5 @@ spec:
           - path: /.npm
       media:
         type: nfs
-        server: ${NFS_SERVER}
-        path: ${NFS_MEDIA}/audiobooks
+        server: 10.0.109.29
+        path: Media/audiobooks
