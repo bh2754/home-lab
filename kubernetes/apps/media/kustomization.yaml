@@ -16,3 +16,4 @@ resources:
 #  - ./overseerr/ks.yaml
 #  - ./tautulli/ks.yaml
 #  - ./tdarr/ks.yaml
+  - ./nzbdav/ks.yaml
