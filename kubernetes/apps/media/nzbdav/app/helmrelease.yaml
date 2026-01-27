@@ -26,16 +26,16 @@ spec:
             setGateway: "false"
           securityContext:
 #           runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile: { type: RuntimeDefault }
         containers:
           app:
             image:
               repository: ghcr.io/nzbdav-dev/nzbdav
-              tag: lateset
+              tag: 0.5.4
             env:
               TZ: ${TIMEZONE}
               PUID: 1000
