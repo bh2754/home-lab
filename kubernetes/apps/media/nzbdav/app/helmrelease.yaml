@@ -25,8 +25,8 @@ spec:
           annotations:
             setGateway: "false"
           securityContext:
-            runAsNonRoot: false
-            runAsUser: 567
+            runAsNonRoot: true
+            runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
