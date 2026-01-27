@@ -26,9 +26,9 @@ spec:
             setGateway: "false"
           securityContext:
 #           runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 567
+            runAsGroup: 568
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile: { type: RuntimeDefault }
         containers:
@@ -38,8 +38,8 @@ spec:
               tag: 0.5.4
             env:
               TZ: ${TIMEZONE}
-              PUID: 1000
-              PGID: 1000
+              PUID: 568
+              PGID: 568
 
             probes:
               liveness: &probes
