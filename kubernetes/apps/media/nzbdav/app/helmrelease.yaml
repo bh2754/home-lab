@@ -66,7 +66,7 @@ spec:
 #               memory: 300Mi
     service:
       app:
-        controller: audiobookshelf
+        controller: nzbdav
         ports:
           http:
             port: *port
