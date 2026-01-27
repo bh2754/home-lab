@@ -25,7 +25,7 @@ spec:
           annotations:
             setGateway: "false"
           securityContext:
-            runAsNonRoot: "false"
+#           runAsNonRoot: "false"
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile: { type: RuntimeDefault }
         containers:
