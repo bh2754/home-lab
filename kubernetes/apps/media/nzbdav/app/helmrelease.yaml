@@ -34,7 +34,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/nzbdav/nzbdav
+              repository: ghcr.io/nzbdav-dev/nzbdav
               tag: lateset
             env:
               TZ: ${TIMEZONE}
