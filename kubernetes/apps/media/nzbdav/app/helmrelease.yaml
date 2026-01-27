@@ -35,9 +35,6 @@ spec:
               tag: 0.5.4
             env:
               TZ: ${TIMEZONE}
-              PUID: 568
-              PGID: 568
-
             probes:
               liveness: &probes
                 enabled: true
