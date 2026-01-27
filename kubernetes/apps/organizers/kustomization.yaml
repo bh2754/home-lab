@@ -9,4 +9,4 @@ components:
 resources:
   - ./namespace.yaml
   # Flux-Kustomizations
-#  - ./tdarr/ks.yaml
+  - ./sonarr/ks.yaml
