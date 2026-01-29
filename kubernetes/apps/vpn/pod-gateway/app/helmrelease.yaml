@@ -1,89 +1,210 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: pod-gateway
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: pod-gateway
-      version: 7.1.0
-      sourceRef:
-        kind: HelmRepository
-        name: angelnu-charts
-        namespace: flux-system
-      interval: 5m
-  values:
-    controllers:
-      main:
-        containers:
-          main:
-            image:
-              repository: ghcr.io/angelnu/pod-gateway
-              tag: v1.13.0@sha256:a5b032e15f7570493977b330a5a86dcffebb807d35685ad803e47afb62d105f2
-          gluetun:
-            enabled: true
-            image:
-              repository: qmcgaw/gluetun
-              tag: v3.41.0@sha256:6b54856716d0de56e5bb00a77029b0adea57284cf5a466f23aad5979257d3045
-            env:
-              - name: VPN_SERVICE_PROVIDER
-    #           value: custom
-                value: mullvad
-              - name: VPN_TYPE
-                value: wireguard
-              - name: VPN_INTERFACE
-                value: wg0
-              - name: FIREWALL
-                value: "off"
-              - name: DOT
-                value: "on"
-              - name: HEALTH_VPN_DURATION_INITIAL
-                value: 30s
-#             - name: LOG_LEVEL
-#               value: debug
-              - name: VPN_ENDPOINT_PORT
-                value: 51820
-              - name: DNS_ADDRESS
-                value: 1.1.1.1
-              - name: WIREGUARD_MTU
-                value: 1320
-              - IPTABLES_NFT
-                value: yes
-            envFrom:
-              - secretRef:
-                  name: mullvad-secret
-    #             name: nord-secret
-            securityContext:
-              capabilities:
-                add:
-                  - NET_ADMIN
-    webhook:
-      image:
-        repository: ghcr.io/angelnu/gateway-admision-controller
-        tag: v3.12.0@sha256:6f6ab596afd5fef0ca4648eadfb21cd37ba86fa5afa8b85edcc072976a61fbed
-    networkpolicies:
-      main:
-        enabled: true
-        egress:
-          - to:
-              - ipBlock:
-                  cidr: 0.0.0.0/0
-            ports:
-              # VPN traffic
-              - port: 51820
-                protocol: UDP
-          - to:
-              - namespaceSelector: {}
+ apiVersion: helm.toolkit.fluxcd.io/v2
+ kind: HelmRelease
+ metadata:
+   name: &app pod-gateway
+   namespace: vpn
+ spec:
+   interval: 15m
+   chart:
+     spec:
+       chart: pod-gateway
+       version: 6.6.1
+       sourceRef:
+         kind: HelmRepository
+         name: angelnu
+         namespace: flux-system
+   maxHistory: 3
+   install:
+     createNamespace: true
+     remediation:
+       retries: 3
+   upgrade:
+     cleanupOnFail: true
+     remediation:
+       retries: 3
+   uninstall:
+     keepHistory: false
 
-    DNS: 172.16.1.1
-    routed_namespaces:
-      - downloaders
-    settings:
-      VXLAN_IP_NETWORK: "172.16.1"
-      VPN_INTERFACE: "wg0"
-      VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: "51820"
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.0.0.0/8 192.168.0.0/16"
-      VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
+
+   values:
+     controllers:
+       main:
+         # Configure the main controller - this runs the VPN server
+         containers:
+           main:
+             image:
+               repository: ghcr.io/angelnu/pod-gateway
+               pullPolicy: IfNotPresent
+               tag: v1.13.0@sha256:a5b032e15f7570493977b330a5a86dcffebb807d35685ad803e47afb62d105f2
+           gluetun:
+             enabled: false
+             dependsOn: main
+             image:
+               repository: ghcr.io/qdm12/gluetun
+               tag: v3.41.0@sha256:6b54856716d0de56e5bb00a77029b0adea57284cf5a466f23aad5979257d3045
+             env:
+               VPN_TYPE: wireguard
+               VPN_INTERFACE: wg0
+                VPN_SERVICE_PROVIDER: mullvad
+                VPN_TYPE: wireguard
+                FIREWALL: "off"
+                DOT: "off"
+                HEALTH_VPN_DURATION_INITIAL: 30s
+           - name: LOG_LEVEL
+             value: debug
+           - name: VPN_ENDPOINT_PORT
+             value: 51820
+           - name: DNS_ADDRESS
+             value: 1.1.1.1
+           - name: WIREGUARD_MTU
+             value: 1320
+           - IPTABLES_NFT
+             value: "yes"
+             # Configure the container-specific securityContext
+             securityContext:
+               capabilities:
+                 add:
+                   - NET_ADMIN
+       webhook:
+         # -- The webhook is used to mutate the PODs matching the given
+         # namespace labels. It inserts an init and sidecard helper containers
+         # that connect to the gateway pod created by this chart.
+         # @default -- See below
+         containers:
+           main:
+             image:
+               repository: ghcr.io/angelnu/gateway-admision-controller
+               pullPolicy: IfNotPresent
+               tag: v3.12.0
+ 
+     networkpolicies:
+       main:
+         enabled: true
+         controller: main
+         policyTypes:
+           - Egress
+         rules:
+           egress:
+             # Allow only VPN traffic to Internet
+             - to:
+                 - ipBlock:
+                     cidr: 0.0.0.0/0
+               ports:
+                 # VPN traffic (default OpenVPN)
+                 - port: 51820
+                   protocol: UDP
+             # Allow any traffic within k8s
+             - to:
+                 - ipBlock:
+                     # Cluster IPs (default k3s)
+                     cidr: 10.0.0.0/8
+ 
+     # -----------------------------------------------------------
+     # After this point, these are settings specific to this chart
+     # and not part of the common chart
+     # -----------------------------------------------------------
+
+    # -- Comma-separated IP addresses of the DNS servers within the vxlan tunnel.
+    # All mutated PODs will get this as their DNS servers.
+    # It must match VXLAN_GATEWAY_IP in settings.sh
+     DNS: 172.16.0.1
+ 
+     # -- The DNSPolicy to apply to the POD. Only when set to "None" will the
+     # DNS value above apply. To avoid altering POD DNS (i.e., to allow
+     # initContainers to use DNS before the the VXLAN is up), set to "ClusterFirst"
+     DNSPolicy: None
+ 
+     # -- cluster name used to derive the gateway full name
+     clusterName: "cluster.local"
+ 
+     # -- Namespaces that might contain routed PODs and therefore
+     # require a copy of the gneerated settings configmap.
+     routed_namespaces:
+       - downloaders
+ 
+     settings:
+       # -- IPs not sent to the POD gateway but to the default K8S.
+       # Multiple CIDRs can be specified using blanks as separator.
+       # Example for Calico: ""172.22.0.0/16 172.24.0.0/16"
+       #
+       # This is needed, for example, in case your CNI does
+       # not add a non-default rule for the K8S addresses (Flannel does).
+       NOT_ROUTED_TO_GATEWAY_CIDRS: "10.0.0.0/8 192.168.0.0/16"
+ 
+       # -- Vxlan ID to use
+       VXLAN_ID: 42
+       # -- VXLAN needs an /24 IP range not conflicting with K8S and local IP ranges
+       VXLAN_IP_NETWORK: "172.16.0"
+       # -- Keep a range of IPs for static assignment in nat.conf
+       VXLAN_GATEWAY_FIRST_DYNAMIC_IP: 20
+ 
+       # -- If using a VPN, interface name created by it
+       VPN_INTERFACE: wg0
+       # -- Prevent non VPN traffic to leave the gateway
+       VPN_BLOCK_OTHER_TRAFFIC: false
+       # -- If VPN_BLOCK_OTHER_TRAFFIC is true, allow VPN traffic over this port
+       VPN_TRAFFIC_PORT: 51820
+       # -- Traffic to these IPs will be send through the K8S gateway
+       VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
+ 
+       # -- DNS queries to these domains will be resolved by K8S DNS instead of
+       # the default (typcally the VPN client changes it)
+       DNS_LOCAL_CIDRS: "local"
+ 
+     # -- settings to expose ports, usually through a VPN provider.
+     # NOTE: if you change it you will need to manually restart the gateway POD
+     publicPorts:
+     # - hostname: qbittorrent
+     #   IP: 10
+     #   ports:
+     #   - type: udp
+     #     port: 18289
+     #   - type: tcp
+     #     port: 18289
+ 
+     # -- settings to expose ports with IPv6, usually through a VPN provider.
+     # NOTE: if you change it you will need to manually restart the gateway POD
+
+     # -- The webhook is used to mutate the PODs matching the given
+     # namespace labels. It inserts an init and sidecard helper containers
+     # that connect to the gateway pod created by this chart.
+     # @default -- See below
+     webhook:
+       # -- Selector for namespace.
+       # All pods in this namespace will get evaluated by the webhook.
+       # **IMPORTANT**: Do not select the namespace where the webhook
+       # is deployed to or you will get locking issues.
+       namespaceSelector:
+         type: label
+         label: "routed-gateway"
+         custom: {}
+         #   matchExpressions:
+         #     - key: notTouch
+         #       operator: NotIn
+         #       values: ["1"]
+ 
+       # -- default behviour for new PODs in the evaluated namespace
+       gatewayDefault: true
+ 
+       # -- label name to check when evaluating POD. If true the POD
+       # will get the gateway. If not set setGatewayDefault will apply.
+       gatewayLabel: setGateway
+ 
+       # -- label value to check when evaluating POD. If set, the POD
+       # with the gatewayLabel's value that matches, will get the
+       # gateway. If not set gatewayLabel boolean value will apply.
+       gatewayLabelValue:
+ 
+       # -- annotation name to check when evaluating POD. If true the POD
+       # will get the gateway. If not set setGatewayDefault will apply.
+       gatewayAnnotation: setGateway
+ 
+       # -- annotation value to check when evaluating POD. If set, the POD
+       # with gatewayAnnotation'value that matches, will get the gateway.
+       # If not set gatewayAnnotation boolean value will apply.
+       gatewayAnnotationValue:
+ 
+       # -- determines how sidecar container is created
+       sidecarAsInit: false
+
