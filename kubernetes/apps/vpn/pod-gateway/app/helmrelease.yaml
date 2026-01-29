@@ -68,8 +68,6 @@
              value: 1320
            - IPTABLES_NFT
              value: "yes"
-
-
          envFrom:
            - secretRef:
                name: mullvad-secret
