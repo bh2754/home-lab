@@ -31,7 +31,8 @@
          reloader.stakater.com/auto: "true"
      image:
        repository: ghcr.io/angelnu/pod-gateway
-       tag: v1.11.1@sha256:0617304f085bc98529f0c5cd0c40c63bb019380a026a277c812bd13f78b4bc5d
+       tag: v1.13.0@sha256:a5b032e15f7570493977b330a5a86dcffebb807d35685ad803e47afb62d105f2
+#       tag: v1.11.1@sha256:0617304f085bc98529f0c5cd0c40c63bb019380a026a277c812bd13f78b4bc5d
      DNS: 172.16.1.1
      addons:
        netshoot:
@@ -41,7 +42,8 @@
          type: gluetun
          image:
            repository: ghcr.io/qdm12/gluetun
-           tag: v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30
+           tag: v3.41.0@sha256:6b54856716d0de56e5bb00a77029b0adea57284cf5a466f23aad5979257d3045
+#           tag: v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30
          env:
            - name: VPN_SERVICE_PROVIDER
  #           value: custom
@@ -121,4 +123,5 @@
          label: "routed-gateway"
        image:
          repository: ghcr.io/angelnu/gateway-admision-controller
-         tag: v3.10.0@sha256:a8ed630613de277244dfe203cd11d05905d7eeba8d8c41e399b02ee9a847b2f5
+        tag: v3.12.0@sha256:6f6ab596afd5fef0ca4648eadfb21cd37ba86fa5afa8b85edcc072976a61fbed 
+#        tag: v3.10.0@sha256:a8ed630613de277244dfe203cd11d05905d7eeba8d8c41e399b02ee9a847b2f5
