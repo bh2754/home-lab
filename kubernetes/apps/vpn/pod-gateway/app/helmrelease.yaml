@@ -60,10 +60,13 @@
              value: debug
            - name: VPN_ENDPOINT_PORT
              value: 51820
- #         - name: DNS_ADDRESS
- #           value: 1.1.1.1
- #         - name: WIREGUARD_MTU
- #           value: 1320
+           - name: DNS_ADDRESS
+             value: 1.1.1.1
+           - name: WIREGUARD_MTU
+             value: 1320
+           - IPTABLES_NFT
+             value: "yes"
+
 
          envFrom:
            - secretRef:
