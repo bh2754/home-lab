@@ -11,4 +11,4 @@ spec:
     operation: copy
   ref:
     tag: 7.1.0
-  url: oci://github.com/angelnu/helm-charts/pod-gateway
+  url: oci://angelnu.github.io/helm-charts/pod-gateway
