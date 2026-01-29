@@ -5,6 +5,6 @@ namespace: vpn
 resources:
   - ./device-plugin.yaml
 #  - ./helmrelease.yaml
-  - ./externalsecret.yaml
+#  - ./externalsecret.yaml
   - ./ocirepository.yaml
-  # - ./networkpolicy.yaml
+  - ./networkpolicy.yaml
