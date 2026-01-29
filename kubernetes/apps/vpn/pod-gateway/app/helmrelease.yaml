@@ -72,7 +72,7 @@ spec:
                   cidr: 0.0.0.0/0
             ports:
               # VPN traffic
-              - port: "51820"
+              - port: 51820
                 protocol: UDP
           - to:
               - namespaceSelector: {}
