@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: vpn
 components:
   - ../../components/sops
-
+  - ../../components/helmrepo
 resources:
   - ./namespace.yaml
   # Flux-Kustomizations
