@@ -82,7 +82,7 @@ spec:
             type: udp
           - port: 59982
             type: tcp
-    routed_namespaces: ["downloaders"]
+    routed_namespaces: ["organizers"]
     settings:
       VPN_INTERFACE: "wg0"
       VXLAN_ID: "43"
