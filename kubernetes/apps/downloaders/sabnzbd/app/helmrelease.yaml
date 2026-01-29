@@ -86,18 +86,14 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        className: internal
-#       annotations:
-#         external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
-        hosts:
-        - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
-          paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
+        hostnames:
+          - "{{ .Release.Name }}.bharris.xyz"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+
     persistence:
       config:
         existingClaim: sabnzbd-config-v1
@@ -105,6 +101,8 @@ spec:
         type: nfs
         server: 10.0.109.29
         path: /volume1/Download
+        globalMounts:
+          - path: /download
       logs:
         type: emptyDir
         globalMounts:
@@ -114,5 +112,8 @@ spec:
       media:
         enabled: true
         type: nfs
-        server: "${NFS_SERVER}"
-        path: ${NFS_MEDIA}
+        server: 10.0.109.29
+        path: /volume1/Media
+        globalMounts:
+          - path: /media
+
