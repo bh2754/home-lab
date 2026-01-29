@@ -57,9 +57,9 @@ spec:
             value: 1337
           - name: LOG_LEVEL
             value: debug
-#        envFrom:
-#          - secretRef:
-#              name: pod-gateway-secret
+        envFrom:
+          - secretRef:
+              name: mullvad-secret
         securityContext:
           capabilities:
             add: ["NET_ADMIN"]
