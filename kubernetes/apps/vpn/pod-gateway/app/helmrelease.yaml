@@ -64,8 +64,6 @@
  #           value: 1.1.1.1
  #         - name: WIREGUARD_MTU
  #           value: 1320
-           - name: IPTABLES_NFT
-             valune: "yes"
 
          envFrom:
            - secretRef:
@@ -110,7 +108,7 @@
        DNS_LOCAL_CIDRS: "local"
        NOT_ROUTED_TO_GATEWAY_CIDRS: "10.0.0.0/8 192.168.0.0/16"
        VPN_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
-       IPTABLES_NFT: "yes"
+       IPTABLES_NFT: "no"
 
      webhook:
        gatewayDefault: false
