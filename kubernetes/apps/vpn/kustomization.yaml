@@ -6,6 +6,6 @@ components:
   - ../../components/sops
 
 resources:
-  - ./namespace.yaml
+# - ./namespace.yaml
   # Flux-Kustomizations
   - ./pod-gateway/ks.yaml
