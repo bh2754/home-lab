@@ -46,11 +46,11 @@
              env:
                VPN_TYPE: wireguard
                VPN_INTERFACE: wg0
-                VPN_SERVICE_PROVIDER: mullvad
-                VPN_TYPE: wireguard
-                FIREWALL: "off"
-                DOT: "off"
-                HEALTH_VPN_DURATION_INITIAL: 30s
+               VPN_SERVICE_PROVIDER: mullvad
+               VPN_TYPE: wireguard
+               FIREWALL: "off"
+               DOT: "off"
+               HEALTH_VPN_DURATION_INITIAL: 30s
            - name: LOG_LEVEL
              value: debug
            - name: VPN_ENDPOINT_PORT
@@ -66,6 +66,7 @@
                capabilities:
                  add:
                    - NET_ADMIN
+                   - NET_RAW
        webhook:
          # -- The webhook is used to mutate the PODs matching the given
          # namespace labels. It inserts an init and sidecard helper containers
