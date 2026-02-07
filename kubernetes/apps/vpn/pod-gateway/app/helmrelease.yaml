@@ -125,4 +125,4 @@
          label: "routed-gateway"
        image:
          repository: ghcr.io/angelnu/gateway-admision-controller
-         tag: v3.12
+         tag: latest
