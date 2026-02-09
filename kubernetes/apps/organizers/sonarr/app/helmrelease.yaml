@@ -38,9 +38,6 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile: { type: RuntimeDefault }
         containers:
-          addons:
-            netshoot:
-              enabled: true
           app:
             image:
               repository: ghcr.io/bh2754/sonarr-develop
