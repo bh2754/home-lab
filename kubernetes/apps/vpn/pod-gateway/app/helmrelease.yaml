@@ -55,7 +55,7 @@
            - name: VPN_TYPE
              value: wireguard
            - name: FIREWALL
-             value: "off"
+             value: "on"
            - name: DOT
              value: "off"
            - name: HEALTH_VPN_DURATION_INITIAL
