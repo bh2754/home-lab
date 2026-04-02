@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/bh2754/prowlarr-nightly
-              tag: 2.3.2.5270@sha256:199221e89228ea8d568e21fe957bba2498bffbce5a9136044866fc329fa9ad0e
+              tag: 2.3.6.5326@sha256:bf65f7b153271c3b493de6d567b3c18ae89fed164ff74b67eda94d055b53e1d9
             env:
               PROWLARR__APP_INSTANCENAME: Prowlarr
               PROWLARR__PORT: &port 9696
